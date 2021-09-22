@@ -1,7 +1,10 @@
 package com.example.mytest;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -18,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final URL url = SimpleJson.createUrl("https://www.cbr-xml-daily.ru/daily_json.js");
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,15 +43,61 @@ public class MainActivity extends AppCompatActivity {
         return Data.getJsonData();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void updateData(String data) {
         ArrayList<Coin> dataCoin = SimpleJson.getCoinArray(data);
-        TableLayout tableLayout = findViewById(R.id.table);
 
-        for (Coin coin : dataCoin) {
-            tableLayout.addView(new ); // coin
+        TableLayout tableLayout = (TableLayout) findViewById(R.id.tableLayout);
+
+        TableRow tableRowOther = new TableRow(this);
+        tableRowOther.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+                TableLayout.LayoutParams.WRAP_CONTENT));
+
+        TextView textView_1 = new TextView(this);
+        TextView textView_2 = new TextView(this);
+        TextView textView_3 = new TextView(this);
+
+        textView_1.append("Name");
+        textView_2.append("Symbol");
+        textView_3.append("Value");
+
+        textView_1.setTypeface(null, Typeface.BOLD);
+        textView_2.setTypeface(null, Typeface.BOLD);
+        textView_3.setTypeface(null, Typeface.BOLD);
+
+        tableRowOther.addView(textView_1);
+        tableRowOther.addView(textView_2);
+        tableRowOther.addView(textView_3);
+
+        tableRowOther.setPadding(0, 10, 0, 30);
+        tableLayout.addView(tableRowOther, 0);
+
+        for (int i = 0; i < dataCoin.size(); i++) {
+
+            TableRow tableRow = new TableRow(this);
+            tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+                    TableLayout.LayoutParams.WRAP_CONTENT));
+
+            TextView textView1 = new TextView(this);
+            TextView textView2 = new TextView(this);
+            TextView textView3 = new TextView(this);
+
+            textView1.append(dataCoin.get(i).getCharCode());
+            textView2.append(dataCoin.get(i).getName() + "             ");
+            textView3.append(dataCoin.get(i).getValue());
+
+            tableRow.addView(textView1);
+            tableRow.addView(textView2);
+            tableRow.addView(textView3);
+            // tableRow.setBackgroundColor();
+
+            tableRow.setPadding(0, 10, 0, 10);
+
+            tableLayout.addView(tableRow, i + 1);
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void update() {
         updateData(getData());
     }

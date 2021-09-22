@@ -1,7 +1,10 @@
 package com.example.mytest.Parser;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.mytest.CurrencyData.Coin;
 import com.example.mytest.Data.Data;
@@ -9,6 +12,7 @@ import com.example.mytest.R;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +20,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class SimpleJson extends AsyncTask<URL, Void, String> {
@@ -54,6 +59,7 @@ public class SimpleJson extends AsyncTask<URL, Void, String> {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static ArrayList<Coin> getCoinArray(String data) {
         ArrayList<Coin> dataCoin = new ArrayList<>();
 
@@ -64,7 +70,7 @@ public class SimpleJson extends AsyncTask<URL, Void, String> {
         if ((data != null) && !(data.isEmpty())) {
             try {
                 jsonObject = (JSONObject) jsonParser.parse(data);
-            } catch (org.json.simple.parser.ParseException e) {
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
@@ -76,11 +82,14 @@ public class SimpleJson extends AsyncTask<URL, Void, String> {
             JSONObject localValute = (JSONObject) valute.get((String) object);
             String name = (String) localValute.get("Name");
             String charCode = (String) localValute.get("CharCode");
-            double value = (double) localValute.get("Value");
+            double  value = ((double) localValute.get("Value"));
+            String res = String.format("%.2f", value);
 
-            dataCoin.add(new Coin(name, charCode, value));
+            dataCoin.add(new Coin(name, charCode, res));
         }
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            dataCoin.sort(Comparator.comparing(Coin::getCharCode));
+        }
         return dataCoin;
     }
 }

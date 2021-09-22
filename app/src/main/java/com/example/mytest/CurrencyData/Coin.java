@@ -3,9 +3,9 @@ package com.example.mytest.CurrencyData;
 public class Coin {
     private final String charCode;
     private final String name;
-    private final double value;
+    private final String value;
 
-    public Coin(String charCode, String name, double value) {
+    public Coin(String charCode, String name, String value) {
         this.charCode = charCode;
         this.name = name;
         this.value = value;
@@ -19,7 +19,7 @@ public class Coin {
         return name;
     }
 
-    public double getValue() {
+    public String getValue() {
         return value;
     }
 
