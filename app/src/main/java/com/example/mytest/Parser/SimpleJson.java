@@ -1,10 +1,8 @@
 package com.example.mytest.Parser;
 
 import android.os.AsyncTask;
-import android.widget.TextView;
 
 import com.example.mytest.Data.Data;
-import com.example.mytest.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,11 +29,9 @@ public class SimpleJson extends AsyncTask<URL, Void, String> {
                 stringBuilder.append(inputLine);
             }
         } catch (IOException e) {
-            System.out.println("66666666");
             e.printStackTrace();
         }
 
-        System.out.println(stringBuilder.toString());
         Data.setJsonData(stringBuilder.toString());
 
         return stringBuilder.toString();
