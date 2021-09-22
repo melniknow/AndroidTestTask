@@ -43,7 +43,7 @@ public class SimpleJson extends AsyncTask<URL, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         System.out.println(s);
-        Data.setJsonData(s);
+        Data.jsonData = s;
     }
 
     public static URL createUrl(String link) {

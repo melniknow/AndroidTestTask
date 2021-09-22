@@ -23,10 +23,14 @@ public class MainActivity extends AppCompatActivity {
 
         TextView textView = findViewById(R.id.data);
 
-        while (Data.getJsonData() == null) {
-
+        try {
+            Thread.sleep(5000);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        textView.append(Data.getJsonData());
+        if (Data.jsonData == null) throw new NullPointerException("Parse Error");
+
+        textView.append(Data.jsonData);
     }
 }
