@@ -3,9 +3,12 @@ package com.example.mytest;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
+import com.example.mytest.Data.Data;
 import com.example.mytest.Parser.SimpleJson;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,21 +18,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String WEATHER_URL =
-                "http://api.openweathermap.org/data/2.5/weather?q=London,uk" +
-                        "&units=metric&appid=241de9349721df959d8800c12ca4f1f3";
+        URL url = SimpleJson.createUrl("https://www.cbr-xml-daily.ru/daily_json.js");
+        new SimpleJson().execute(url);
 
-        URL url = SimpleJson.createUrl(WEATHER_URL);
+        TextView textView = findViewById(R.id.data);
 
-        // загружаем Json в виде Java строки
-        String resultJson = SimpleJson.parseUrl(url);
-        System.out.println("Полученный JSON:\n" + resultJson);
+        while (Data.getJsonData() == null) {
 
-        // парсим полученный JSON и печатаем его на экран
-        SimpleJson.parseCurrentWeatherJson(resultJson);
+        }
 
-        // формируем новый JSON объект из нужных нам погодных данных
-        String json = SimpleJson.buildWeatherJson();
-        System.out.println("Созданный нами JSON:\n" + json);
+        textView.append(Data.getJsonData());
     }
 }
