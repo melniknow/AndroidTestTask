@@ -21,16 +21,16 @@ public class MainActivity extends AppCompatActivity {
         URL url = SimpleJson.createUrl("https://www.cbr-xml-daily.ru/daily_json.js");
         new SimpleJson().execute(url);
 
-        TextView textView = findViewById(R.id.data);
-
         try {
-            Thread.sleep(5000);
+            Thread.sleep(10000);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if (Data.jsonData == null) throw new NullPointerException("Parse Error");
+        if (Data.getJsonData() == null) throw new NullPointerException("Parse Error");
 
-        textView.append(Data.jsonData);
+        // Code
+        TextView textView = findViewById(R.id.data);
+        textView.append(Data.getJsonData());
     }
 }

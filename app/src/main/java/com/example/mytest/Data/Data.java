@@ -1,5 +1,13 @@
 package com.example.mytest.Data;
 
 public class Data {
-    public static volatile String jsonData;
+    private static volatile String jsonData;
+
+    public static synchronized void setJsonData(String value) {
+        jsonData = value;
+    }
+
+    public static synchronized String getJsonData() {
+        return jsonData;
+    }
 }

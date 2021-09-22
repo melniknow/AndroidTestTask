@@ -29,21 +29,16 @@ public class SimpleJson extends AsyncTask<URL, Void, String> {
             // построчно считываем результат в объект StringBuilder
             while ((inputLine = in.readLine()) != null) {
                 stringBuilder.append(inputLine);
-                System.out.println(inputLine);
             }
         } catch (IOException e) {
             System.out.println("66666666");
             e.printStackTrace();
         }
-        System.out.println("OK");
-        return stringBuilder.toString();
-    }
 
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-        System.out.println(s);
-        Data.jsonData = s;
+        System.out.println(stringBuilder.toString());
+        Data.setJsonData(stringBuilder.toString());
+
+        return stringBuilder.toString();
     }
 
     public static URL createUrl(String link) {
