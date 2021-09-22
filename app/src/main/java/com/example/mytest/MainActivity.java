@@ -9,13 +9,8 @@ import com.example.mytest.CurrencyData.Coin;
 import com.example.mytest.Data.Data;
 import com.example.mytest.Parser.SimpleJson;
 
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,32 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Code
     public void updateData(String data) {
-        List<Coin> dataCoin = new ArrayList<>();
-
-        TextView textView = findViewById(R.id.data);
-
-        JSONObject jsonObject = new JSONObject();
-        JSONParser jsonParser = new JSONParser();
-
-        if ((data != null) && !(data.isEmpty())) {
-            try {
-                jsonObject = (JSONObject) jsonParser.parse(data);
-            } catch (org.json.simple.parser.ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        JSONObject valute = (JSONObject) jsonObject.get("Valute");
-        assert valute != null;
-
-        for (Object object : valute.keySet()) {
-            JSONObject localValute = (JSONObject) valute.get((String) object);
-            String name = (String) localValute.get("Name");
-            String charCode = (String) localValute.get("CharCode");
-            double value = (double) localValute.get("Value");
-
-            dataCoin.add(new Coin(name, charCode, value));
-        }
+        ArrayList<Coin> dataCoin = SimpleJson.getCoinArray(data);
 
         StringBuilder stringBuilder = new StringBuilder();
         for (Coin coin : dataCoin) {
@@ -77,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             stringBuilder.append('\n');
         }
 
+        TextView textView = findViewById(R.id.data);
         textView.append(stringBuilder.toString());
     }
 
