@@ -3,6 +3,8 @@ package com.example.mytest;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.mytest.CurrencyData.Coin;
@@ -37,18 +39,13 @@ public class MainActivity extends AppCompatActivity {
         return Data.getJsonData();
     }
 
-    // Code
     public void updateData(String data) {
         ArrayList<Coin> dataCoin = SimpleJson.getCoinArray(data);
+        TableLayout tableLayout = findViewById(R.id.table);
 
-        StringBuilder stringBuilder = new StringBuilder();
         for (Coin coin : dataCoin) {
-            stringBuilder.append(coin);
-            stringBuilder.append('\n');
+            tableLayout.addView(new ); // coin
         }
-
-        TextView textView = findViewById(R.id.data);
-        textView.append(stringBuilder.toString());
     }
 
     public void update() {
