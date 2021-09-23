@@ -4,10 +4,12 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -33,7 +35,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        update();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+
+        if (sharedPreferences.getString("data", "unknown").equals("unknown")) {
+            update();
+        } else {
+            String temp = sharedPreferences.getString("data", "unknown");
+            updateData(temp);
+        }
     }
 
     public String getData() {
@@ -46,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (Data.getJsonData() == null) throw new NullPointerException("Parse Error");
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("data");
+        editor.putString("data", Data.getJsonData());
+        editor.apply();
+
         return Data.getJsonData();
     }
 
