@@ -3,9 +3,11 @@ package com.example.mytest;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -47,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
     public void updateData(String data) {
         ArrayList<Coin> dataCoin = SimpleJson.getCoinArray(data);
 
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.tableLayout);
+        TableLayout tableLayout = findViewById(R.id.tableLayout);
+        TextView textView = findViewById(R.id.choose);
+        textView.setTypeface(null, Typeface.BOLD);
 
         TableRow tableRowOther = new TableRow(this);
         tableRowOther.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
@@ -65,15 +69,18 @@ public class MainActivity extends AppCompatActivity {
         textView_2.setTypeface(null, Typeface.BOLD);
         textView_3.setTypeface(null, Typeface.BOLD);
 
+
         tableRowOther.addView(textView_1);
         tableRowOther.addView(textView_2);
         tableRowOther.addView(textView_3);
 
         tableRowOther.setPadding(0, 10, 0, 30);
+
         tableLayout.addView(tableRowOther, 0);
 
-        for (int i = 0; i < dataCoin.size(); i++) {
+        int k = 2;
 
+        for (int i = 0; i < dataCoin.size(); i++) {
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
                     TableLayout.LayoutParams.WRAP_CONTENT));
@@ -86,14 +93,24 @@ public class MainActivity extends AppCompatActivity {
             textView2.append(dataCoin.get(i).getName() + "             ");
             textView3.append(dataCoin.get(i).getValue());
 
+            textView1.setTypeface(Typeface.SANS_SERIF);
+            textView2.setTypeface(Typeface.SANS_SERIF);
+            textView3.setTypeface(Typeface.SANS_SERIF);
+
             tableRow.addView(textView1);
             tableRow.addView(textView2);
             tableRow.addView(textView3);
-            // tableRow.setBackgroundColor();
 
             tableRow.setPadding(0, 10, 0, 10);
 
-            tableLayout.addView(tableRow, i + 1);
+            View line = new View(this);
+            line.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, 1));
+            line.setBackgroundColor(Color.rgb(0, 0, 0));
+
+            tableLayout.addView(line, k - 1);
+
+            tableLayout.addView(tableRow, k);
+            k += 2;
         }
     }
 

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CRB test</string>
+    <string name="choose_currency_and_enter_sum">Choose currency and enter sum:</string>
 </resources>
