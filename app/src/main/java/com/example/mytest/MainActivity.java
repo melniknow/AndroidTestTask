@@ -3,12 +3,14 @@ package com.example.mytest;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -123,8 +125,10 @@ public class MainActivity extends AppCompatActivity {
             k += 2;
         }
 
+        Data.setCoinData(dataCoin);
+
         // ---------------------------------
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        Spinner spinner = findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, coins);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -135,8 +139,45 @@ public class MainActivity extends AppCompatActivity {
         updateData(getData());
     }
 
+    @SuppressLint("SetTextI18n")
     public void onClick(View view) {
-        // Code
+        TextView textViewRes = findViewById(R.id.result);
+        textViewRes.setText("Result: " + getSum());
+    }
+
+    public String getSum() {
+        Spinner mySpinner = findViewById(R.id.spinner);
+        EditText editText = findViewById(R.id.input);
+
+        double coinValue = getValueById(getIndexBySymbol(mySpinner.getSelectedItem().toString()));
+        double userValue;
+
+        try {
+            if (editText.getText().toString().startsWith("0")) return "";
+            userValue = Double.parseDouble(editText.getText().toString());
+        } catch (Exception e) {
+            return "";
+        }
+
+        double res = userValue / coinValue;
+
+        return String.format("%.2f", res);
+    }
+
+    private double getValueById(int indexBySymbol) {
+        ArrayList<Coin> coinData = Data.getCoinData();
+        System.out.println(coinData.get(indexBySymbol).getValue().replace(',', '.')); //
+        return Double.parseDouble(coinData.get(indexBySymbol).getValue().replace(',', '.'));
+    }
+
+    private int getIndexBySymbol(String item) {
+        int ind = 0;
+        ArrayList<Coin> coinData = Data.getCoinData();
+        for (Coin coin : coinData) {
+            if (coin.getName().equals(item)) return ind;
+            ind++;
+        }
+        return -1;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

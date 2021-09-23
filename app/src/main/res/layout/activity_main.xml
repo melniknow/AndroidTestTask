@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             style="@style/TextAppearance.AppCompat.Inverse"
+            android:backgroundTint="@android:color/holo_red_dark"
             android:onClick="onClickUpdate"
             android:text="@string/update"
             tools:ignore="UsingOnClickInXml" />
@@ -40,12 +41,6 @@
             android:orientation="horizontal"
             android:padding="12dp">
 
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
             <EditText
                 android:id="@+id/input"
                 android:layout_width="0dp"
@@ -53,6 +48,12 @@
                 android:layout_weight="2"
                 android:hint="@string/Title"
                 android:inputType="number" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
 
         </LinearLayout>
