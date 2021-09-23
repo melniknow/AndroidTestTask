@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">CRB test</string>
     <string name="choose_currency_and_enter_sum">Choose currency and enter sum:</string>
+    <string name="Title">100</string>
+    <string name="convert">Convert</string>
+    <string name="result">Result:</string>
+    <string name="update">Update</string>
 </resources>

@@ -8,6 +8,8 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -48,10 +50,16 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void updateData(String data) {
         ArrayList<Coin> dataCoin = SimpleJson.getCoinArray(data);
+        ArrayList<String> coins = new ArrayList<>();
 
         TableLayout tableLayout = findViewById(R.id.tableLayout);
+        tableLayout.removeAllViews();
+
         TextView textView = findViewById(R.id.choose);
         textView.setTypeface(null, Typeface.BOLD);
+
+        TextView textViewRes = findViewById(R.id.result);
+        textViewRes.setTypeface(null, Typeface.BOLD);
 
         TableRow tableRowOther = new TableRow(this);
         tableRowOther.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
@@ -89,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
             TextView textView2 = new TextView(this);
             TextView textView3 = new TextView(this);
 
+            coins.add(dataCoin.get(i).getName());
+
             textView1.append(dataCoin.get(i).getCharCode());
             textView2.append(dataCoin.get(i).getName() + "             ");
             textView3.append(dataCoin.get(i).getValue());
@@ -112,10 +122,25 @@ public class MainActivity extends AppCompatActivity {
             tableLayout.addView(tableRow, k);
             k += 2;
         }
+
+        // ---------------------------------
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, coins);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void update() {
         updateData(getData());
+    }
+
+    public void onClick(View view) {
+        // Code
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void onClickUpdate(View view) {
+        update();
     }
 }
